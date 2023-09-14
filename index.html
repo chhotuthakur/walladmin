@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload with Category</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Add your custom CSS for animated button here -->
+    <style>
+        /* Define your custom CSS here */
+        .animated-button {
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .animated-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Image Upload with Category</h1>
+        <form>
+            <div class="form-group">
+                <label for="imageUpload">Upload Image</label>
+                <input type="file" class="form-control-file" id="imageUpload" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="categorySelect">Select Category</label>
+                <select class="form-control" id="categorySelect">
+                    <!-- Categories will be dynamically populated from Firebase -->
+                </select>
+            </div>
+            <button type="button" class="animated-button" id="uploadButton">Upload</button>
+            <div class="form-group">
+                <label for="newCategory">Add New Category</label>
+                <input type="text" class="form-control" id="newCategory">
+                
+            </div>
+            <button type="button" class="animated-button" id="addCategoryButton">Add Category</button>
+        </form>
+    </div>
+
+    <!-- Firebase JavaScript SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+    <!-- Firebase configuration (replace with your Firebase project config) -->
+   
+    
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
