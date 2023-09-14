@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Upload and Display</title>
+</head>
+<body>
+    <input type="file" id="fileInput">
+    <button onclick="uploadImage()">Upload</button>
+    <div id="imageList"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+</body>
+<script>
+var firebaseConfig = {
+    apiKey: "AIzaSyB-isfaLP9MHQHdGEOv9PWpx1fOAjDIgFM",
+    authDomain: "project-adsense-26c65.firebaseapp.com",
+    databaseURL: "https://project-adsense-26c65-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "project-adsense-26c65",
+    storageBucket: "project-adsense-26c65.appspot.com",
+    messagingSenderId: "608324017972",
+    appId: "1:608324017972:web:33854fa5315d39b1bacf61",
+    measurementId: "G-P86JZRCWQT"
+};
+
+
+
+
+    // Initialize Firebase with your config from Firebase Console
+firebase.initializeApp(firebaseConfig);
+
+// Get references to Firebase Storage and Database
+const storage = firebase.storage();
+const database = firebase.database();
+
+// Function to upload an image
+function uploadImage() {
+    const fileInput = document.getElementById('fileInput');
+    const selectedFile = fileInput.files[0];
+
+    if (selectedFile) {
+        const category = "food"; // Replace with the selected category
+        const imageName = selectedFile.name;
+        const imageRef = storage.ref(category + '/' + imageName);
+
+        imageRef.put(selectedFile).then(() => {
+            // Image uploaded successfully
+            saveImageMetadata(imageName, category);
+        }).catch(error => {
+            console.error('Error uploading image: ', error);
+        });
+    }
+}
+
+// Function to save image metadata to Firebase Database
+function saveImageMetadata(imageName, category) {
+    const imagesRef = database.ref('images');
+    const imageUrl = `https://your-firebase-app-url.appspot.com/${category}/${imageName}`;
+
+    imagesRef.push({
+        imageUrl: imageUrl,
+        category: category
+    });
+}
+
+// Function to fetch images by category and display them
+function fetchImagesByCategory(category) {
+    const imageListDiv = document.getElementById('imageList');
+    imageListDiv.innerHTML = ''; // Clear previous entries
+
+    const imagesRef = database.ref('images');
+    imagesRef.orderByChild('category').equalTo(category).once('value', snapshot => {
+        snapshot.forEach(childSnapshot => {
+            const image = childSnapshot.val();
+            const imageElement = document.createElement('img');
+            imageElement.src = image.imageUrl;
+            imageListDiv.appendChild(imageElement);
+        });
+    });
+}
+
+// Call fetchImagesByCategory with the desired category to display images
+fetchImagesByCategory("food");
+
+</script>
+</html>

@@ -13,6 +13,7 @@
     
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+    populateCategories();
 
     // Get a reference to the Firebase Realtime Database
         var storage = firebase.storage();
@@ -72,7 +73,7 @@
         var imageKey = database.ref().child('wallpapers').child('images').push().key;
 
         // Create a reference to the Firebase Storage bucket
-        var storageRef = storage.ref('wallpapers/images/' + imageKey + '_' + imageFile.name);
+        var storageRef = storage.ref('wallpapers/images/' + category + '_' + imageFile.name);
 
         // Upload the image to Firebase Storage
         var uploadTask = storageRef.put(imageFile);
@@ -91,7 +92,7 @@
                 };
 
 
-                database.ref('wallpapers/images/' + imageKey).set(imageData)
+                database.ref('wallpapers/images/' + category).set(imageData)
                     .then(function() {
                         console.log("Image uploaded with category: " + category);
                         imageUploadInput.value = ""; // Clear the input field
